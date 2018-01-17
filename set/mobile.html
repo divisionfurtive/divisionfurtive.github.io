@@ -1,0 +1,234 @@
+<!--***************************** SINCE YOU ARE HERE, PLEASE READ THE FOLLOWING ********************************
+*	
+*	The watch "set by light" code is open source BUT
+*			1) No support is offered and it comes as-is...poorly documented
+*			2) You accept all the risks and are fully aware you could "brick" your watch by modifying the code below
+*			
+*	-- Division Furtive
+*	
+*************************************************************************************************************-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>Division Furtive Watch Set</title>
+
+		<!-- Google tracking code -->
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-26046517-2', 'auto');
+		  ga('send', 'pageview');
+		</script>		
+
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+ 
+<style type="text/css">
+	.bgWhite { background-color: #ffffff; }
+	.bgBlack { background-color: #000000; } 
+</style>
+
+</head>
+
+<body onload="LetThereBeLight();">  
+
+
+  <header data-role="header">
+  	<img src="logo-small.png" />
+  	<br>
+  	<label id="lbData"></label>
+		<br>
+
+		<table style="width:100%">
+  		<tr>
+  			<td id="attempt1" style="height: 1px"></td>
+  			<td id="attempt2" style="height: 1px"></td>
+  			<td id="attempt3" style="height: 1px"></td>
+  			<td id="attempt4" style="height: 1px"></td>
+  			<td id="attempt5" style="height: 1px"></td>
+  		</tr>
+  	</table>
+  	<table style="width:100%">
+  		<tr>
+  			<td id="progressBar" style="background-color: orange; height: 1px; width:0%;"></td>
+  			<td style="height: 1px"></td>
+  		</tr>
+  	</table>
+
+  </header>
+
+	<div data-role="content" class="box">
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+				
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+	var lightShow;
+	var byteIndex = 0;
+	var bitIndex = 0;
+	var attemptIndex = 0;
+	var attemptLimit = 5;	
+	
+	var light = new Boolean(false);
+	var ShortInterval = 75;	// Golden
+	var LongInterval = 250;	// Golden
+	var StartNibble = 0;
+	var Reserved1 = 0; 			//	2-bit
+	
+	// Extract timeshifts (west and east) and seconds offset from URL
+	var parameters = location.search.substring(1).split("&");
+    var temp = parameters[0].split("=");
+    tsw = unescape(temp[1]);
+    temp = parameters[1].split("=");
+    tse = unescape(temp[1]);
+	temp = parameters[2].split("=");
+    soffset = unescape(temp[1]);
+	
+	var TimeShiftWest = parseInt(tsw);
+	var TimeShiftEast = parseInt(tse);
+	var SecOffset = parseInt(soffset);
+  if ((SecOffset > 0) && (SecOffset <= 30)) SecOffset = SecOffset;
+  else SecOffset = 0;
+	
+	var d = new Date();
+	var Hours = d.getHours();					// 0-23
+	var Minutes = d.getMinutes();			// 0-59	
+	var Seconds = d.getSeconds() + SecOffset;			// 0-59	
+	if (Seconds > 59) {
+		Seconds -= 60;
+		if (Minutes < 59) Minutes += 1;
+		else Minutes = 0;
+	}
+	var Day = d.getDate();						// 1-31
+	var Month = d.getMonth()+1;				// 1-12
+	var Year = d.getFullYear()-2000;	// 0-256 (2000-2256)
+	var crc = 0;	
+	var TxData = new Array();
+	
+	function PackData() {	
+		d = new Date();
+		Hours = d.getHours();						// 0-23
+	 	Minutes = d.getMinutes();				// 0-59
+	 	Seconds = d.getSeconds() + SecOffset;				// 0-59	
+		if (Seconds > 59) {
+			Seconds -= 60;
+			if (Minutes < 59) Minutes += 1;
+			else Minutes = 0;
+		}	 		
+	 	Day = d.getDate();							// 1-31
+	 	Month = d.getMonth()+1;					// 1-12
+	 	Year = d.getFullYear()-2000;		// 0-256 (2000-2256)
+		
+		TxData[0] = (StartNibble << 4) + (Reserved1 << 2) + (TimeShiftWest & 0x03);	
+		TxData[1] = ( (TimeShiftWest << 3) & 0xE0 ) + (TimeShiftEast & 0x1F);
+		TxData[2] = Hours;
+		TxData[3] = ((Seconds & 0x03 ) << 6) + (Minutes & 0x3F);
+		TxData[4] = Day;
+		TxData[5] = ((Seconds & 0x3C ) << 2) + (Month & 0x0F);
+		TxData[6] = Year;
+					
+		crc = 0xFF;
+		for (var i = 0; i < 7; i++) {
+			crc = crc8(crc, TxData[i]);
+		}
+		TxData[7] = crc;
+		TxData[8] = 0x3F;
+	}
+							
+	function SwitchToWhite() {
+  	$(".box").removeClass('bgBlack').addClass("bgWhite");
+	}
+	
+	function SwitchToBlack() {
+  	$(".box").removeClass("bgWhite").addClass("bgBlack");
+	}
+	
+	function zeroPad(num) {
+	  var zero = 2 - num.toString().length + 1;
+	  return Array(+(zero > 0 && zero)).join("0") + num;
+	}
+	
+function crc8(crc, crcData)
+{
+	var crc8 = crc ^ crcData;
+	for (i = 0; i < 8; i++)	{
+		if (crc8 & 0x01)	crc8 = (crc8 >> 1) ^ 0x8C;
+		else crc8 = crc8 >> 1;
+	}
+
+	return crc8;
+}
+	
+	function LetThereBeLight() {
+		
+		// Prepare data to be transfered
+		if ((byteIndex == 0) && (bitIndex == 0)) PackData();
+		
+		// Parse current data bit
+		var dat = new Boolean(false);
+		if ( ((TxData[byteIndex] << bitIndex) & 0x80) == 0x80 ) dat = true;
+		else dat = false;
+							
+		// Toggle light
+		if (light) SwitchToBlack();
+		else SwitchToWhite();
+		light = !light;
+		
+		// Stop when past attempt limit
+		if (attemptIndex > (attemptLimit-1)) {
+			clearTimeout(lightShow);
+			return;
+		}
+		
+		// Increment indexes
+		bitIndex++;
+		if (bitIndex > 7) {
+			bitIndex = 0;
+			byteIndex++;
+			if (byteIndex > 8) {
+				byteIndex = 0;
+				attemptIndex++;
+			}
+		}
+		
+		// Compute data progress
+		var progress = (byteIndex * 8 + bitIndex) / 71 * 100;
+		if (progress < 1) progress = 1;
+		
+		// Update transfered data text
+		document.getElementById("lbData").innerHTML = Hours.toString() + ":" + zeroPad(Minutes).toString() + ":" + zeroPad(Seconds).toString() + " " + (Year+2000).toString() + "-" + Month.toString() + "-" + Day.toString() + " (W: -" + TimeShiftWest.toString() + "h / E: +" + TimeShiftEast.toString() + "h)";
+		
+		// Update "attempt" progress bar
+		if (attemptIndex == 0) document.getElementById("attempt1").style.backgroundColor = "white";
+		else document.getElementById("attempt1").style.backgroundColor = "none";
+		if (attemptIndex == 1) document.getElementById("attempt2").style.backgroundColor = "white";
+		else document.getElementById("attempt1").style.backgroundColor = "none";
+		if (attemptIndex == 2) document.getElementById("attempt3").style.backgroundColor = "white";
+		else document.getElementById("attempt1").style.backgroundColor = "none";
+		if (attemptIndex == 3) document.getElementById("attempt4").style.backgroundColor = "white";
+		else document.getElementById("attempt1").style.backgroundColor = "none";
+		if (attemptIndex >= 4) document.getElementById("attempt5").style.backgroundColor = "white";
+		else document.getElementById("attempt1").style.backgroundColor = "none";
+		
+		// Update "data" progress bar
+		document.getElementById("progressBar").style.width = progress.toFixed(0) + "%";
+		
+		// Call next bit
+		if (dat) lightShow = setTimeout('LetThereBeLight()', LongInterval);
+		else lightShow = setTimeout('LetThereBeLight()', ShortInterval);
+	}
+  	
+</script>

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	  <title>R&eacute;glage - Division Furtive</title>
+		<link rel="stylesheet" type="text/css" href="preset.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+		<script type="text/javascript" src="js/labels.js"></script>
+
+		<script>
+			function genURL() {
+			    
+			    var tse = document.getElementById("tse").value;
+			    var tsw = document.getElementById("tsw").value;
+			    var setwatchurl = 'http://www.division-furtive.com/set/mobile.html?TSW=' + tsw + '&TSE=' + tse + '&SOFFSET=0';
+			    
+			    window.open(setwatchurl, 'StatusBar', 'toolbar=no,resizable=no,scrollbars=no,status=no,location=no,width=400,height=400,left=100,top=100')
+			}
+		</script>
+
+		<script type="text/javascript">
+			function display_c(){
+			var refresh=1000; // Refresh rate in milli seconds
+			mytime=setTimeout('display_ct()',refresh)
+			}
+			
+			function addZero(i) {
+		    if (i < 10) {
+		        i = "0" + i;
+		    }
+		    return i;
+			}
+			
+			function display_ct() {
+			var strcount
+			var x = new Date()
+			var x1=x.getFullYear() + "/" + (x.getMonth()+1) + "/" + x.getDate();
+			x1 = x1 + "<br>" + x.getHours( )+ ":" + addZero(x.getMinutes()) + ":" + addZero(x.getSeconds());
+			document.getElementById('ct').innerHTML = x1;
+			
+			tt=display_c();
+			}
+		</script>
+		
+		<!-- Google tracking code -->
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-26046517-2', 'auto');
+		  ga('send', 'pageview');
+		</script>		
+
+  </head>
+  <body onload=display_ct();>
+
+		<table width="100%" height="100%" cellspacing="0">
+			<tr>
+				<td>
+					
+				</td>					
+				<td width="20" border="0" align="center" style="background-color:white;opacity: 0.80;">
+					
+				</td>
+				<td width="420" border="0" align="center" style="background-color:white;opacity: 0.80;">
+					<br>
+					
+					<table><tr><td style="width: 420px; font-weight: bold; color:black; text-align: center;">
+						
+						<form onsubmit="genURL();">
+							<a href="https://www.division-furtive.com" border="0"><img src="logo.png" style="display: block;margin-left: auto;margin-right: auto;" /></a>
+							<br>
+						
+							Une fois le <a href="http://www.division-furtive.com/fr/#home-setwatch">mode r&eacute;glage activ&eacute;</a> sur la montre, choisissez les &eacute;carts pour vos d&eacute;placements ci-dessous (en heures) par rapport &agrave; votre heure locale et appuyez sur "R&Eacute;GLER LA MONTRE".<br><br>
+
+										<table align="center">
+											<tr
+												<td colspan="3">
+													<img src="travelTimeShiftsDial.png"/>
+												</td>
+											</tr>
+											<tr>
+												<td align="center">
+													&Eacute;cart pour<br>d&eacute;placement<br>vers l'ouest<br><br>
+									 			 	<select name="tsw" id="tsw" form="travelmode">
+													  <option value="0">0</option>
+													  <option value="1">-1h</option>
+													  <option value="2">-2h</option>
+													  <option value="3">-3h</option>
+													  <option value="4">-4h</option>
+													  <option value="5">-5h</option>
+													  <option value="6">-6h</option>
+													  <option value="7">-7h</option>
+													  <option value="8">-8h</option>
+													  <option value="9">-9h</option>
+													  <option value="10">-10h</option>
+													  <option value="11">-11h</option>
+													  <option value="12">-12h</option>
+													  <option value="13">-13h</option>
+													  <option value="14">-14h</option>
+													  <option value="15">-15h</option>	
+												 		<option value="16">-16h</option>
+													  <option value="17">-17h</option>
+													  <option value="18">-18h</option>
+													  <option value="19">-19h</option>			  		  			  			  			  
+													  <option value="20">-20h</option>			  		  			  			  			  
+													  <option value="21">-21h</option>			  		  			  			  			  
+													  <option value="22">-22h</option>			  		  			  			  			  
+													  <option value="23">-23h</option>			  		  			  			  			  
+													</select>		
+												</td>
+												<td width="200">
+													<span id='ct' ></span>
+													<br><br>
+													<img src="home.png" style="display: block;margin-left: auto;margin-right: auto;" />
+												</td>
+												<td>
+													&Eacute;cart pour<br>d&eacute;placement<br>vers l'est<br><br>
+													<select name="tse" id="tse" form="travelmode">
+													  <option value="0">0</option>
+													  <option value="1">+1h</option>
+													  <option value="2">+2h</option>
+													  <option value="3">+3h</option>
+													  <option value="4">+4h</option>
+													  <option value="5">+5h</option>
+													  <option value="6">+6h</option>
+													  <option value="7">+7h</option>
+													  <option value="8">+8h</option>
+													  <option value="9">+9h</option>
+													  <option value="10">+10h</option>
+													  <option value="11">+11h</option>
+													  <option value="12">+12h</option>
+													  <option value="13">+13h</option>
+													  <option value="14">+14h</option>
+													  <option value="15">+15h</option>	
+												 		<option value="16">+16h</option>
+													  <option value="17">+17h</option>
+													  <option value="18">+18h</option>
+													  <option value="19">+19h</option>			  		  			  			  			  
+													  <option value="20">+20h</option>			  		  			  			  			  
+													  <option value="21">+21h</option>			  		  			  			  			  
+													  <option value="22">+22h</option>			  		  			  			  			  
+													  <option value="23">+23h</option>			  		  			  			  			  
+													</select>		
+												</td>								
+											</tr>
+										</table>
+											
+											
+									<br><br>
+									<input type="submit" id="setwatch" value="R&Eacute;GLER LA MONTRE" class="myButton">			
+								<br><br><br>
+								<span style="float: right; font-size: 16px; font-weight: normal;">
+								NOTEZ BIEN: Vous pouvez laisser les &eacute;carts ouest/est &agrave; 0 si vous ne planifiez pas de d&eacute;placement. Aussi, le mode voyage utilise l'heure par rapport &agrave; votre heure locale et non des fuseaux horaires.	L'heure et la date sont fournies automatiquement par votre appareil de programmation.
+								</span>
+					
+						
+						</form>
+						
+					</tr></td></table><br>
+					
+					<br>
+	
+				</td>		
+				<td width="20" border="0" align="center" style="background-color:white;opacity: 0.80;">
+					
+				</td>
+				<td>
+					
+				</td>				
+			</tr>
+		</table>
+	
+	</body>
+</html>

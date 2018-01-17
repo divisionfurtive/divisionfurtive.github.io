@@ -1,0 +1,125 @@
+a:link {color:#ff9600; text-decoration:none;}      /* unvisited link */
+a:visited {color:#ff9600; text-decoration:none;}  /* visited link */
+a:hover {color:#ff9600; text-decoration:underline;}  /* mouse over link */
+a:active {color:#ff9600; text-decoration:none;}  /* selected link */
+
+img {
+  border-width: 0;
+}
+
+html { 
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-weight:bold;
+	  background: url('preset-bg.jpg') no-repeat center center fixed; 
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
+	  margin-left: auto;
+		margin-right: auto;		
+		text-align: center;
+	}
+	
+table
+{ 
+	margin-left: auto;
+	margin-right: auto;
+}
+
+form select#tse {
+  width: 140px;
+  height: 50px;
+  background-image: url('tse.png');
+  text-align: left;
+  font-size: 24px;
+  font-family: "Arial", "Helvetica", sans-serif;  
+}
+
+form select#tsw {
+  width: 140px;
+  height: 50px;
+  background-image: url('tsw.png');
+  text-align: left;
+  font-size: 24px;
+	font-family: "Arial", "Helvetica", sans-serif;
+}
+
+
+.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+	background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+	background-color:#f9f9f9;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family: "Arial", "Helvetica", sans-serif;
+	font-size:24px;
+	font-weight:bold;
+	padding:19px 60px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
+	background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
+	background-color:#e9e9e9;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+	
+/* Text input style from http://net.tutsplus.com/tutorials/html-css-techniques/design-a-prettier-web-form-with-css-3/ */
+
+select { 
+	padding: 9px;
+	border: solid 1px #E5E5E5;
+	outline: 0;
+	margin: 0;
+	width: 200px;
+	background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+	background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
+	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+}
+
+input:hover, input:focus, select:hover, select:focus { 
+	border-color: #C9C9C9; 
+	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
+}
+
+/* Text input "active" label from http://attardi.org/labels/#css */
+
+.input span {
+  position: absolute;
+  padding: 13px 6px 6px 6px;
+  margin-left: 3px;
+  color: #999;
+}
+
+.input input, .input select {
+  position: relative;
+  margin-top:3px;
+  margin-left:-1px;
+  border-width: 1px;
+  background: none;
+  font: inherit;
+}
